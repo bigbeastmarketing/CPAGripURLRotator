@@ -1,10 +1,10 @@
 <html>
 <head>
 
-<title>ClickBank Rotator</title>
+<title>CPAGrip URL Rotator</title>
 
-<meta name="description" content="ClickBank URL Rotator">
-<meta name="keywords" content="clickbank marketplace, clickbank products">
+<meta name="description" content="CPAGrip URL Rotator">
+<meta name="keywords" content="file lockers, affiliate products">
 
 <? include("config.php"); ?>
 
@@ -73,30 +73,20 @@
 		//lets use a custom tracking domain for the links :)
 		$offeritem->offerlink = str_replace('www.cpagrip.com','filetrkr.com',$offeritem->offerlink);
 		
-		//uncomment below if you want to display a point value.
-		//$points = floatval($offeritem->payout) * 100; //lets make offers worth $1.20 appear as 120 points.
-		//echo '<strong>Earn '.$points.' Points</strong><br/>';
+		$url = $offeritem->offerlink;	
 		
-		echo '<a target="_blank" href="'.$offeritem->offerlink.'">'.$offeritem->title.'</a><br/>';	
-		
-		//uncomment to show offers description
-		//echo $offeritem->description.'<br/>';
-		
-		//uncomment to show offers image
-		//echo '<img src="'.$offeritem->offerphoto.'">';
 
+		}
+			if(count($xml->offers->children())==0){
+			echo 'Sorry there are no offers available for your region at this time.';
 	}
-	if(count($xml->offers->children())==0){
-		echo 'Sorry there are no offers available for your region at this time.';
-	}
-}else{
+} else {
 	echo 'error fetching xml offer feed: '. $output;
 }
         srand();
         $url =  $window[rand(0, $i)];
 
-        fclose($handle);
-   } 
+} 
 
 	echo "<iframe style='background-color: white;' height='87%' width='100%' sandbox='' src='$url'></iframe>\n";
 
