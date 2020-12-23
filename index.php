@@ -67,21 +67,31 @@
     curl_close($ch);
     $xml = @simplexml_load_string($output);
 
-    if ($handle) {
+    if($xml !== false) {
+	foreach($xml->offers->offer as $offeritem) {
 
-    	$i = 1;
-    	while (($line = fgets($handle)) !== false) {
-        	// process the line read.
-		preg_match_all("'<Id>(.*?)</Id>'si", $line, $matches);
+		//lets use a custom tracking domain for the links :)
+		$offeritem->offerlink = str_replace('www.cpagrip.com','filetrkr.com',$offeritem->offerlink);
+		
+		//uncomment below if you want to display a point value.
+		//$points = floatval($offeritem->payout) * 100; //lets make offers worth $1.20 appear as 120 points.
+		//echo '<strong>Earn '.$points.' Points</strong><br/>';
+		
+		echo '<a target="_blank" href="'.$offeritem->offerlink.'">'.$offeritem->title.'</a><br/>';	
+		
+		//uncomment to show offers description
+		//echo $offeritem->description.'<br/>';
+		
+		//uncomment to show offers image
+		//echo '<img src="'.$offeritem->offerphoto.'">';
 
-
-		foreach($matches[1] as $val) {
-
-			$window[$i] = "http://$hop." . strtolower($val) . ".hop.clickbank.net/";
-			$i++;
-		}
-    	}
-
+	}
+	if(count($xml->offers->children())==0){
+		echo 'Sorry there are no offers available for your region at this time.';
+	}
+}else{
+	echo 'error fetching xml offer feed: '. $output;
+}
         srand();
         $url =  $window[rand(0, $i)];
 
